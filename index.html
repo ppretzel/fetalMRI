@@ -19,16 +19,18 @@
   </nav>
 
   <main class="viewer-section">
-    <div class="viewer-header-panel">
-      <h1>STA Fetal Brain Atlas</h1>
-      <p class="subtitle">Spatio-Temporal Atlas &mdash; Gholipour et al. 2017</p>
-      <div class="header-meta">
-        <span class="meta-item"><span class="meta-label">Atlas</span><span id="infoAtlas">STA21</span></span>
-        <span class="meta-item"><span class="meta-label">GA</span><span id="infoAge">21 weeks</span></span>
-        <span class="meta-item meta-static">NIfTI (.nii)</span>
-        <span class="meta-item meta-static">Axial &middot; Coronal &middot; Sagittal</span>
+    <details class="viewer-header-panel">
+      <summary>STA Fetal Brain Atlas</summary>
+      <div class="viewer-header-body">
+        <p class="subtitle">Spatio-Temporal Atlas &mdash; Gholipour et al. 2017</p>
+        <div class="header-meta">
+          <span class="meta-item"><span class="meta-label">Atlas</span><span id="infoAtlas">STA21</span></span>
+          <span class="meta-item"><span class="meta-label">GA</span><span id="infoAge">21 weeks</span></span>
+          <span class="meta-item meta-static">NIfTI (.nii)</span>
+          <span class="meta-item meta-static">Axial &middot; Coronal &middot; Sagittal</span>
+        </div>
       </div>
-    </div>
+    </details>
 
     <div class="age-selector-panel">
       <div class="age-selector-top">
@@ -80,7 +82,7 @@
     const infoAtlas   = document.getElementById("infoAtlas");
     const infoAge     = document.getElementById("infoAge");
 
-    const nv = new Niivue({ backColor: [0.04, 0.04, 0.04, 1], show3Dcrosshair: true });
+    const nv = new Niivue({ backColor: [0.04, 0.04, 0.04, 1], show3Dcrosshair: true, crosshairColor: [0.4, 0.4, 0.4, 0.6], crosshairWidth: 0.5, textHeight: 0 });
     nv.attachToCanvas(document.getElementById("gl"));
 
     // ── Build pill buttons ────────────────────────────────────────
@@ -147,7 +149,10 @@
             ? `Loading atlases… ${loadedCount} / ${WEEKS.length}`
             : "All atlases ready";
           if (loadedCount === WEEKS.length) {
-            setTimeout(() => preloadWrap.classList.add("done"), 1200);
+            setTimeout(() => {
+              preloadWrap.classList.add("done");
+              setTimeout(() => preloadWrap.remove(), 650);
+            }, 1200);
           }
         }
       })()]
