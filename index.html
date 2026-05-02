@@ -19,25 +19,43 @@
   </nav>
 
   <main class="viewer-section">
-    <h1>STA Fetal Brain Atlas</h1>
-    <p class="subtitle">Spatio-Temporal Atlas (STA) &mdash; 21 weeks gestational age</p>
+    <div class="viewer-header">
+      <div>
+        <h1>STA Fetal Brain Atlas</h1>
+        <p class="subtitle">Spatio-Temporal Atlas &mdash; Gholipour et al. 2017</p>
+      </div>
+    </div>
+
+    <div class="age-selector-panel">
+      <div class="age-selector-top">
+        <span class="age-selector-label">Gestational Age</span>
+        <span class="age-current" id="ageCurrentDisplay">21 <small>wk</small></span>
+      </div>
+      <div class="age-pills" id="agePills"></div>
+      <div class="preload-wrap" id="preloadWrap">
+        <div class="preload-bar-track">
+          <div class="preload-bar-fill" id="preloadBar"></div>
+        </div>
+        <span class="preload-text" id="preloadText">Loading atlases&hellip; 0 / 15</span>
+      </div>
+    </div>
 
     <div class="canvas-wrap">
       <canvas id="gl"></canvas>
       <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner"></div>
-        <span>Loading atlas&hellip;</span>
+        <span id="overlayText">Loading atlas&hellip;</span>
       </div>
     </div>
 
     <div class="atlas-info">
       <div class="info-item">
         <span class="label">Atlas</span>
-        <span class="value">STA21</span>
+        <span class="value" id="infoAtlas">STA21</span>
       </div>
       <div class="info-item">
         <span class="label">Gestational age</span>
-        <span class="value">21 weeks</span>
+        <span class="value" id="infoAge">21 weeks</span>
       </div>
       <div class="info-item">
         <span class="label">Format</span>
@@ -64,23 +82,111 @@
   <script type="module">
     import { Niivue } from "https://cdn.jsdelivr.net/npm/@niivue/niivue@0.57.0/dist/index.js";
 
-    const overlay = document.getElementById("loadingOverlay");
+    const WEEKS = Array.from({ length: 15 }, (_, i) => 21 + i);
+    const blobUrls = new Map();   // week -> objectURL (with .nii hint via name param)
+    let currentWeek = null;
+    let switching = false;
+    let loadedCount = 0;
 
-    const nv = new Niivue({
-      backColor: [0, 0, 0, 1],
-      show3Dcrosshair: true,
-    });
+    const overlay     = document.getElementById("loadingOverlay");
+    const overlayText = document.getElementById("overlayText");
+    const preloadBar  = document.getElementById("preloadBar");
+    const preloadText = document.getElementById("preloadText");
+    const preloadWrap = document.getElementById("preloadWrap");
+    const ageDisplay  = document.getElementById("ageCurrentDisplay");
+    const infoAtlas   = document.getElementById("infoAtlas");
+    const infoAge     = document.getElementById("infoAge");
 
+    const nv = new Niivue({ backColor: [0.04, 0.04, 0.04, 1], show3Dcrosshair: true });
     nv.attachToCanvas(document.getElementById("gl"));
 
-    (async () => {
+    // ── Build pill buttons ────────────────────────────────────────
+    const pillsContainer = document.getElementById("agePills");
+    WEEKS.forEach(w => {
+      const btn = document.createElement("button");
+      btn.className = "age-pill";
+      btn.textContent = w;
+      btn.dataset.week = w;
+      btn.disabled = true;
+      btn.title = `${w} weeks gestational age`;
+      btn.addEventListener("click", () => {
+        if (!btn.disabled && w !== currentWeek && !switching) switchTo(w);
+      });
+      pillsContainer.appendChild(btn);
+    });
+
+    function getPill(w) { return pillsContainer.querySelector(`[data-week="${w}"]`); }
+
+    function updateUI(w) {
+      ageDisplay.innerHTML = `${w} <small>wk</small>`;
+      infoAtlas.textContent = `STA${w}`;
+      infoAge.textContent = `${w} weeks`;
+      WEEKS.forEach(x => getPill(x)?.classList.toggle("active", x === w));
+    }
+
+    // ── Switch to a cached atlas ──────────────────────────────────
+    async function switchTo(w) {
+      if (switching || w === currentWeek || !blobUrls.has(w)) return;
+      switching = true;
+      const p = getPill(w);
+      p?.classList.add("switching");
       try {
-        await nv.loadVolumes([{ url: "./atlas/STA21.nii" }]);
+        // name: tells NiiVue the format — blob:// URLs have no extension
+        await nv.loadVolumes([{ url: blobUrls.get(w), name: `STA${w}.nii` }]);
         nv.setSliceType(nv.sliceTypeMultiplanar);
+        currentWeek = w;
+        updateUI(w);
+      } catch (err) {
+        console.error("switchTo error:", err);
+      } finally {
+        p?.classList.remove("switching");
+        switching = false;
+      }
+    }
+
+    // ── Preload all atlases in parallel ───────────────────────────
+    // Each entry is a Promise that resolves once that week's blob is cached.
+    const fetchDone = new Map(
+      WEEKS.map(w => [w, (async () => {
+        try {
+          const resp = await fetch(`./atlas/STA${w}.nii`);
+          if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+          const blob = await resp.blob();
+          blobUrls.set(w, URL.createObjectURL(blob));
+          getPill(w).disabled = false;
+        } catch (err) {
+          console.warn(`STA${w}.nii: ${err.message}`);
+          const p = getPill(w);
+          if (p) { p.disabled = true; p.classList.add("unavailable"); p.title = "Not available"; }
+        } finally {
+          loadedCount++;
+          preloadBar.style.width = `${Math.round(loadedCount / WEEKS.length * 100)}%`;
+          preloadText.textContent = loadedCount < WEEKS.length
+            ? `Loading atlases… ${loadedCount} / ${WEEKS.length}`
+            : "All atlases ready";
+          if (loadedCount === WEEKS.length) {
+            setTimeout(() => preloadWrap.classList.add("done"), 1200);
+          }
+        }
+      })()]
+    ));
+
+    // ── Init: display STA21 as soon as its blob is ready ─────────
+    (async () => {
+      await fetchDone.get(21);
+      if (!blobUrls.has(21)) {
+        overlay.innerHTML = `<span class="overlay-error">STA21 could not be loaded.</span>`;
+        return;
+      }
+      overlayText.textContent = "Rendering…";
+      try {
+        await nv.loadVolumes([{ url: blobUrls.get(21), name: "STA21.nii" }]);
+        nv.setSliceType(nv.sliceTypeMultiplanar);
+        currentWeek = 21;
+        updateUI(21);
         overlay.classList.add("hidden");
       } catch (err) {
-        overlay.innerHTML = `<span style="color:#ff6b6b">Failed to load atlas: ${err.message}</span>`;
-        console.error(err);
+        overlay.innerHTML = `<span class="overlay-error">${err.message}</span>`;
       }
     })();
   </script>

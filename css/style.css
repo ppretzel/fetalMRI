@@ -7,10 +7,13 @@
 :root {
   --bg: #111;
   --surface: #1c1c1e;
+  --surface2: #252528;
   --border: #2c2c2e;
   --text: #f0f0f0;
   --muted: #8e8e93;
   --accent: #4a9eff;
+  --accent-glow: rgba(74, 158, 255, 0.35);
+  --accent-dim: rgba(74, 158, 255, 0.15);
   --nav-height: 56px;
 }
 
@@ -68,18 +71,182 @@ nav {
   padding: 1.5rem;
 }
 
+.viewer-header {
+  margin-bottom: 1rem;
+}
+
 .viewer-section h1 {
   font-size: 1.15rem;
   font-weight: 600;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.2rem;
 }
 
 .viewer-section .subtitle {
   color: var(--muted);
   font-size: 0.85rem;
-  margin-bottom: 1rem;
 }
 
+/* ── Age Selector Panel ── */
+.age-selector-panel {
+  position: relative;
+  margin-bottom: 1rem;
+  padding: 1.1rem 1.4rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  overflow: hidden;
+}
+
+/* Top accent stripe */
+.age-selector-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent) 0%, #a78bfa 100%);
+  border-radius: 10px 10px 0 0;
+}
+
+.age-selector-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.age-selector-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.age-current {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  transition: color 0.2s;
+}
+
+.age-current small {
+  font-size: 0.65em;
+  font-weight: 400;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  margin-left: 0.15em;
+}
+
+/* ── Pills ── */
+.age-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.age-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.4rem;
+  height: 2rem;
+  padding: 0 0.55rem;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  line-height: 1;
+  transition: background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s, transform 0.1s;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.age-pill:hover:not(:disabled):not(.active) {
+  background: #2e2e32;
+  border-color: #555;
+  color: var(--text);
+  transform: translateY(-1px);
+}
+
+.age-pill.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 0 0 3px var(--accent-glow), 0 2px 8px rgba(74, 158, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.age-pill:disabled {
+  opacity: 0.28;
+  cursor: default;
+  transform: none;
+}
+
+.age-pill.unavailable {
+  opacity: 0.18;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+/* Brief pulse while NiiVue is loading the clicked atlas */
+.age-pill.switching {
+  animation: pill-pulse 0.6s ease-in-out infinite;
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+@keyframes pill-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+  50%       { box-shadow: 0 0 0 5px transparent; }
+}
+
+/* ── Preload progress bar ── */
+.preload-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  transition: opacity 0.6s ease;
+}
+
+.preload-wrap.done {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.preload-bar-track {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.preload-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), #a78bfa);
+  border-radius: 2px;
+  transition: width 0.25s ease;
+}
+
+.preload-text {
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-align: right;
+}
+
+/* ── Canvas ── */
 .canvas-wrap {
   width: 100%;
   height: clamp(420px, 72vh, 800px);
@@ -95,7 +262,7 @@ nav {
   display: block;
 }
 
-/* loading overlay */
+/* ── Loading overlay ── */
 .loading-overlay {
   position: absolute;
   inset: 0;
@@ -103,12 +270,12 @@ nav {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #000;
+  background: rgba(0, 0, 0, 0.92);
   gap: 0.75rem;
   font-size: 0.85rem;
   color: var(--muted);
   pointer-events: none;
-  transition: opacity 0.3s;
+  transition: opacity 0.35s;
 }
 
 .loading-overlay.hidden {
@@ -128,7 +295,14 @@ nav {
   to { transform: rotate(360deg); }
 }
 
-/* ── Info strip below viewer ── */
+.overlay-error {
+  color: #ff6b6b;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 0 1.5rem;
+}
+
+/* ── Info strip ── */
 .atlas-info {
   margin-top: 1rem;
   padding: 1rem 1.25rem;
@@ -147,9 +321,9 @@ nav {
 }
 
 .info-item .label {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   color: var(--muted);
 }
 
@@ -203,5 +377,15 @@ footer a {
 
   .atlas-info {
     gap: 1.25rem;
+  }
+
+  .age-current {
+    font-size: 1.2rem;
+  }
+
+  .age-pill {
+    min-width: 2.1rem;
+    height: 1.8rem;
+    font-size: 0.78rem;
   }
 }
