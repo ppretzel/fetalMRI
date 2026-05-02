@@ -19,17 +19,20 @@
   </nav>
 
   <main class="viewer-section">
-    <div class="viewer-header">
-      <div>
-        <h1>STA Fetal Brain Atlas</h1>
-        <p class="subtitle">Spatio-Temporal Atlas &mdash; Gholipour et al. 2017</p>
+    <div class="viewer-header-panel">
+      <h1>STA Fetal Brain Atlas</h1>
+      <p class="subtitle">Spatio-Temporal Atlas &mdash; Gholipour et al. 2017</p>
+      <div class="header-meta">
+        <span class="meta-item"><span class="meta-label">Atlas</span><span id="infoAtlas">STA21</span></span>
+        <span class="meta-item"><span class="meta-label">GA</span><span id="infoAge">21 weeks</span></span>
+        <span class="meta-item meta-static">NIfTI (.nii)</span>
+        <span class="meta-item meta-static">Axial &middot; Coronal &middot; Sagittal</span>
       </div>
     </div>
 
     <div class="age-selector-panel">
       <div class="age-selector-top">
         <span class="age-selector-label">Gestational Age</span>
-        <span class="age-current" id="ageCurrentDisplay">21 <small>wk</small></span>
       </div>
       <div class="age-pills" id="agePills"></div>
       <div class="preload-wrap" id="preloadWrap">
@@ -45,25 +48,6 @@
       <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner"></div>
         <span id="overlayText">Loading atlas&hellip;</span>
-      </div>
-    </div>
-
-    <div class="atlas-info">
-      <div class="info-item">
-        <span class="label">Atlas</span>
-        <span class="value" id="infoAtlas">STA21</span>
-      </div>
-      <div class="info-item">
-        <span class="label">Gestational age</span>
-        <span class="value" id="infoAge">21 weeks</span>
-      </div>
-      <div class="info-item">
-        <span class="label">Format</span>
-        <span class="value">NIfTI (.nii)</span>
-      </div>
-      <div class="info-item">
-        <span class="label">View</span>
-        <span class="value">Orthogonal (axial / coronal / sagittal)</span>
       </div>
     </div>
 
@@ -93,7 +77,6 @@
     const preloadBar  = document.getElementById("preloadBar");
     const preloadText = document.getElementById("preloadText");
     const preloadWrap = document.getElementById("preloadWrap");
-    const ageDisplay  = document.getElementById("ageCurrentDisplay");
     const infoAtlas   = document.getElementById("infoAtlas");
     const infoAge     = document.getElementById("infoAge");
 
@@ -118,7 +101,6 @@
     function getPill(w) { return pillsContainer.querySelector(`[data-week="${w}"]`); }
 
     function updateUI(w) {
-      ageDisplay.innerHTML = `${w} <small>wk</small>`;
       infoAtlas.textContent = `STA${w}`;
       infoAge.textContent = `${w} weeks`;
       WEEKS.forEach(x => getPill(x)?.classList.toggle("active", x === w));
