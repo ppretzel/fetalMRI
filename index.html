@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fetal MRI Resources</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a class="nav-brand" href="index.html">Fetal MRI Resources</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Atlas Viewer</a></li>
+      <li><a href="#">Acquisition</a></li>
+      <li><a href="#">Interpretation</a></li>
+      <li><a href="#">Resources</a></li>
+    </ul>
+  </nav>
+
+  <main class="viewer-section">
+    <h1>STA Fetal Brain Atlas</h1>
+    <p class="subtitle">Spatio-Temporal Atlas (STA) &mdash; 21 weeks gestational age</p>
+
+    <div class="canvas-wrap">
+      <canvas id="gl"></canvas>
+      <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <span>Loading atlas&hellip;</span>
+      </div>
+    </div>
+
+    <div class="atlas-info">
+      <div class="info-item">
+        <span class="label">Atlas</span>
+        <span class="value">STA21</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Gestational age</span>
+        <span class="value">21 weeks</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Format</span>
+        <span class="value">NIfTI (.nii)</span>
+      </div>
+      <div class="info-item">
+        <span class="label">View</span>
+        <span class="value">Orthogonal (axial / coronal / sagittal)</span>
+      </div>
+    </div>
+
+    <p class="controls-hint">
+      <kbd>Scroll</kbd> to change slice &nbsp;&bull;&nbsp;
+      <kbd>Click</kbd> to place crosshair &nbsp;&bull;&nbsp;
+      <kbd>Right-drag</kbd> to adjust brightness/contrast
+    </p>
+  </main>
+
+  <footer>
+    Atlas: Gholipour et al. &mdash; <a href="https://www.nature.com/articles/s41598-017-00525-w" target="_blank" rel="noopener">A normative spatiotemporal MRI atlas of the fetal brain</a> &mdash;
+    Viewer powered by <a href="https://github.com/niivue/niivue" target="_blank" rel="noopener">NiiVue</a>
+  </footer>
+
+  <script type="module">
+    import { Niivue } from "https://cdn.jsdelivr.net/npm/@niivue/niivue@0.57.0/dist/index.js";
+
+    const overlay = document.getElementById("loadingOverlay");
+
+    const nv = new Niivue({
+      backColor: [0, 0, 0, 1],
+      show3Dcrosshair: true,
+    });
+
+    nv.attachToCanvas(document.getElementById("gl"));
+
+    (async () => {
+      try {
+        await nv.loadVolumes([{ url: "./atlas/STA21.nii" }]);
+        nv.setSliceType(nv.sliceTypeMultiplanar);
+        overlay.classList.add("hidden");
+      } catch (err) {
+        overlay.innerHTML = `<span style="color:#ff6b6b">Failed to load atlas: ${err.message}</span>`;
+        console.error(err);
+      }
+    })();
+  </script>
+
+</body>
+</html>
