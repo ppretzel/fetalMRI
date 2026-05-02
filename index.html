@@ -54,9 +54,10 @@
     </div>
 
     <p class="controls-hint">
-      <kbd>Scroll</kbd> to change slice &nbsp;&bull;&nbsp;
-      <kbd>Click</kbd> to place crosshair &nbsp;&bull;&nbsp;
-      <kbd>Right-drag</kbd> to adjust brightness/contrast
+      <kbd>Scroll</kbd> slice &nbsp;&bull;&nbsp;
+      <kbd>Ctrl+Scroll</kbd> zoom &nbsp;&bull;&nbsp;
+      <kbd>Right-drag</kbd> brightness &nbsp;&bull;&nbsp;
+      <kbd>Double-click</kbd> reset zoom
     </p>
   </main>
 
@@ -82,8 +83,26 @@
     const infoAtlas   = document.getElementById("infoAtlas");
     const infoAge     = document.getElementById("infoAge");
 
+    const glCanvas = document.getElementById("gl");
+    let zoomLevel = 1;
+
+    // Register BEFORE attachToCanvas so this listener runs first.
+    // stopImmediatePropagation prevents NiiVue from also receiving ctrl+scroll.
+    glCanvas.addEventListener("wheel", (e) => {
+      if (!e.ctrlKey && !e.metaKey) return;  // plain scroll: let NiiVue slice
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      zoomLevel = Math.max(0.5, Math.min(8, zoomLevel + (e.deltaY < 0 ? 0.1 : -0.1)));
+      nv.setPan2Dxyzmm([0, 0, 0, zoomLevel]);
+    }, { passive: false });
+
+    glCanvas.addEventListener("dblclick", () => {
+      zoomLevel = 1;
+      nv.setPan2Dxyzmm([0, 0, 0, 1]);
+    });
+
     const nv = new Niivue({ backColor: [0.04, 0.04, 0.04, 1], show3Dcrosshair: true, crosshairColor: [0.4, 0.4, 0.4, 0.6], crosshairWidth: 0.5, textHeight: 0 });
-    nv.attachToCanvas(document.getElementById("gl"));
+    nv.attachToCanvas(glCanvas);
 
     // ── Build pill buttons ────────────────────────────────────────
     const pillsContainer = document.getElementById("agePills");
