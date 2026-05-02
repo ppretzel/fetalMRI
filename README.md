@@ -1,2 +1,2 @@
 # fetalMRI
-A number of resources for fetal MRI acquisition and interpretation
+A number of resources for fetal MRI acquisition and interpretation.
