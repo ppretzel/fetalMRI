@@ -394,6 +394,9 @@ footer a {
 /* ── Nav dropdown ── */
 .nav-links .has-dropdown {
   position: relative;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
 }
 
 .nav-links .has-dropdown > a::after {
@@ -404,7 +407,7 @@ footer a {
 
 .nav-links .dropdown {
   position: absolute;
-  top: calc(100% + 8px);
+  top: 100%;
   left: 50%;
   transform: translateX(-50%);
   min-width: 160px;

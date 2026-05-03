@@ -57,13 +57,12 @@
 
     <!-- Measurements -->
     <div class="calc-card">
-      <div class="calc-card-title">2D Measurements</div>
       <table class="meas-table">
         <thead>
           <tr>
-            <th>Measurement</th>
+            <th>2D Measurements</th>
             <th style="padding-right:0.5rem">Value</th>
-            <th>Centile</th>
+            <th>Percentile</th>
           </tr>
         </thead>
         <tbody>
@@ -168,9 +167,9 @@
     }
 
     function formatCentile(p) {
-      if (p < 1)  return '<1st centile';
-      if (p > 99) return '>99th centile';
-      return `${ordinal(Math.round(p))} centile`;
+      if (p < 1)  return '<1st percentile';
+      if (p > 99) return '>99th percentile';
+      return `${ordinal(Math.round(p))} percentile`;
     }
 
     // ── Normative polynomial coefficients (Kyriakopoulou 2017) ──────
@@ -317,7 +316,7 @@
       const ecsfVal = parseFloat(ecsfInput.value);
 
       const COL_LABEL = Math.max(...FIELDS.map(f => f.label.length)) + 1; // +1 for ":"
-      const header = `Fetal Brain Morphometry (${gaStr}, Kyriakopoulou 2017)`;
+      const header = `Fetal Brain Morphometry (${gaStr})`;
       const rule   = '─'.repeat(header.length);
 
       const rows = FIELDS.map(f => {
