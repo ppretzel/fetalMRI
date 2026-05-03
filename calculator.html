@@ -12,9 +12,6 @@
     <a class="nav-brand" href="index.html">Fetal MRI Resources</a>
     <ul class="nav-links">
       <li><a href="index.html">Atlas Viewer</a></li>
-      <li><a href="#">Acquisition</a></li>
-      <li><a href="#">Interpretation</a></li>
-      <li><a href="#">Resources</a></li>
       <li class="has-dropdown"><a href="#" class="active">Calculators</a>
         <ul class="dropdown">
           <li><a href="calculator.html" class="active">Kyriakopoulou 2017</a></li>
@@ -26,13 +23,9 @@
   <main class="calc-section">
 
     <details class="viewer-header-panel" open>
-      <summary>Fetal Brain Morphometry Centile Calculator</summary>
+      <summary>Fetal Centile Calculator (Kyriakopoulou et al, 2016)</summary>
       <div class="viewer-header-body">
-        <p class="subtitle">Normative data &mdash; Kyriakopoulou &amp; Vatansever, King's College London, 2016</p>
-        <div class="header-meta">
-          <span class="meta-item meta-static">2D measurements (mm)</span>
-          <span class="meta-item meta-static">Centiles computed via normal distribution</span>
-        </div>
+          <p class="subtitle">This is a web-based adaptation of the <a href="https://www.developingbrain.co.uk/fetalcentiles/">Fetal Centiles Calculator published by Dr. Vanessa Kyriakopoulou et al, 2016</a> </p>
       </div>
     </details>
 
@@ -356,6 +349,7 @@
     });
 
     // ── Wire inputs ──────────────────────────────────────────────────
+    scanInput.value = new Date().toISOString().slice(0, 10);
     [eddInput, scanInput].forEach(el => el.addEventListener('change', recalc));
     FIELDS.filter(f => !f.auto).forEach(f =>
       document.getElementById(f.id).addEventListener('input', recalc)
