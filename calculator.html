@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brain Morphometry Centile Calculator — Fetal MRI Resources</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a class="nav-brand" href="index.html">Fetal MRI Resources</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Atlas Viewer</a></li>
+      <li><a href="#">Acquisition</a></li>
+      <li><a href="#">Interpretation</a></li>
+      <li><a href="#">Resources</a></li>
+      <li class="has-dropdown"><a href="#" class="active">Calculators</a>
+        <ul class="dropdown">
+          <li><a href="calculator.html" class="active">Kyriakopoulou 2017</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+  <main class="calc-section">
+
+    <details class="viewer-header-panel" open>
+      <summary>Fetal Brain Morphometry Centile Calculator</summary>
+      <div class="viewer-header-body">
+        <p class="subtitle">Normative data &mdash; Kyriakopoulou &amp; Vatansever, King's College London, 2016</p>
+        <div class="header-meta">
+          <span class="meta-item meta-static">2D measurements (mm)</span>
+          <span class="meta-item meta-static">Centiles computed via normal distribution</span>
+        </div>
+      </div>
+    </details>
+
+    <!-- Gestational Age -->
+    <div class="calc-card">
+      <div class="calc-card-title">Gestational Age</div>
+      <div class="date-row">
+        <div class="date-field">
+          <label for="edd">EDD by scan</label>
+          <input type="date" id="edd">
+        </div>
+        <div class="date-field">
+          <label for="scandate">Date of scan</label>
+          <input type="date" id="scandate">
+        </div>
+        <div class="ga-result">
+          <span class="ga-label">GA</span>
+          <span class="ga-display" id="gaDisplay">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Measurements -->
+    <div class="calc-card">
+      <div class="calc-card-title">2D Measurements</div>
+      <table class="meas-table">
+        <thead>
+          <tr>
+            <th>Measurement</th>
+            <th style="padding-right:0.5rem">Value</th>
+            <th>Centile</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="meas-label">Brain biparietal diameter <span class="meas-unit">mm</span></td>
+            <td class="meas-input-cell"><input class="meas-input" type="number" id="bpd_brain" min="0" step="0.1" placeholder="—"></td>
+            <td class="meas-centile-cell" id="c_bpd_brain">—</td>
+          </tr>
+          <tr>
+            <td class="meas-label">Brain fronto-occipital length <span class="meas-unit">mm</span></td>
+            <td class="meas-input-cell"><input class="meas-input" type="number" id="fod_brain" min="0" step="0.1" placeholder="—"></td>
+            <td class="meas-centile-cell" id="c_fod_brain">—</td>
+          </tr>
+          <tr>
+            <td class="meas-label">Skull biparietal diameter <span class="meas-unit">mm</span></td>
+            <td class="meas-input-cell"><input class="meas-input" type="number" id="bpd_skull" min="0" step="0.1" placeholder="—"></td>
+            <td class="meas-centile-cell" id="c_bpd_skull">—</td>
+          </tr>
+          <tr>
+            <td class="meas-label">Skull occipitofrontal diameter <span class="meas-unit">mm</span></td>
+            <td class="meas-input-cell"><input class="meas-input" type="number" id="ofd_skull" min="0" step="0.1" placeholder="—"></td>
+            <td class="meas-centile-cell" id="c_ofd_skull">—</td>
+          </tr>
+          <tr>
+            <td class="meas-label">Head circumference <span class="meas-unit">mm</span> <span class="meas-auto-tag">auto</span></td>
+            <td class="meas-input-cell"><input class="meas-input" type="text" id="hc" readonly placeholder="—"></td>
+            <td class="meas-centile-cell" id="c_hc">—</td>
+          </tr>
+          <tr>
+            <td class="meas-label">Transverse cerebellar diameter <span class="meas-unit">mm</span></td>
+            <td class="meas-input-cell"><input class="meas-input" type="number" id="tcd" min="0" step="0.1" placeholder="—"></td>
+            <td class="meas-centile-cell" id="c_tcd">—</td>
+          </tr>
+          <tr>
+            <td class="meas-label">Extra-cerebral CSF <span class="meas-unit">mm</span> <span class="meas-auto-tag">auto</span></td>
+            <td class="meas-input-cell"><input class="meas-input" type="text" id="ecsf" readonly placeholder="—"></td>
+            <td class="meas-centile-cell" id="c_ecsf">—</td>
+          </tr>
+          <tr>
+            <td class="meas-label">Atrial diameter <span class="meas-unit">mm</span></td>
+            <td class="meas-input-cell"><input class="meas-input" type="number" id="atrium" min="0" step="0.1" placeholder="—"></td>
+            <td class="meas-centile-cell" id="c_atrium">—</td>
+          </tr>
+          <tr>
+            <td class="meas-label">Vermis height <span class="meas-unit">mm</span></td>
+            <td class="meas-input-cell"><input class="meas-input" type="number" id="vermis_h" min="0" step="0.1" placeholder="—"></td>
+            <td class="meas-centile-cell" id="c_vermis_h">—</td>
+          </tr>
+          <tr>
+            <td class="meas-label">Vermis width <span class="meas-unit">mm</span></td>
+            <td class="meas-input-cell"><input class="meas-input" type="number" id="vermis_w" min="0" step="0.1" placeholder="—"></td>
+            <td class="meas-centile-cell" id="c_vermis_w">—</td>
+          </tr>
+          <tr>
+            <td class="meas-label">Vermis area <span class="meas-unit">mm²</span></td>
+            <td class="meas-input-cell"><input class="meas-input" type="number" id="vermis_a" min="0" step="0.1" placeholder="—"></td>
+            <td class="meas-centile-cell" id="c_vermis_a">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Report output -->
+    <div class="calc-card">
+      <div class="calc-card-title">Report Output</div>
+      <div class="output-actions">
+        <button class="btn-copy" id="btnCopy">Copy</button>
+        <button class="btn-generate" id="btnGenerate">Generate</button>
+      </div>
+      <textarea class="output-textarea" id="outputText" readonly
+        placeholder="Enter dates and measurements above, then click Generate."></textarea>
+    </div>
+
+  </main>
+
+  <footer>
+    Normative data: Kyriakopoulou &amp; Vatansever, King's College London, v1 2016
+  </footer>
+
+  <script>
+    // ── Error function (Abramowitz & Stegun approximation) ───────────
+    function erf(x) {
+      const sign = x >= 0 ? 1 : -1;
+      x = Math.abs(x);
+      const t = 1 / (1 + 0.3275911 * x);
+      const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x);
+      return sign * y;
+    }
+
+    function normdist(x, mean, sd) {
+      return 0.5 * (1 + erf((x - mean) / (sd * Math.SQRT2)));
+    }
+
+    // ── Ordinal suffix ───────────────────────────────────────────────
+    function ordinal(n) {
+      const n10 = n % 10, n100 = n % 100;
+      if (n100 >= 11 && n100 <= 13) return `${n}th`;
+      if (n10 === 1) return `${n}st`;
+      if (n10 === 2) return `${n}nd`;
+      if (n10 === 3) return `${n}rd`;
+      return `${n}th`;
+    }
+
+    function formatCentile(p) {
+      if (p < 1)  return '<1st centile';
+      if (p > 99) return '>99th centile';
+      return `${ordinal(Math.round(p))} centile`;
+    }
+
+    // ── Normative polynomial coefficients (Kyriakopoulou 2017) ──────
+    // mean(GA) = c[0] + c[1]*GA + c[2]*GA²
+    // sd(GA)   = c[0] + c[1]*GA
+    const NORMS = {
+      bpd_brain: {
+        mean: [-4.10103070034808,    2.15796641214556,   0.00745288371870462],
+        sd:   [-0.00860905658350885, 0.0964247812880832]
+      },
+      fod_brain: {
+        mean: [-70.0314528061519,    7.35388404172975,  -0.0713232019035459],
+        sd:   [1.70886156273044,     0.0476950051407897]
+      },
+      bpd_skull: {
+        mean: [-49.8911774130114,    5.91791531313345,  -0.0552269320569366],
+        sd:   [3.08061696569922,    -0.00409764631804949]
+      },
+      ofd_skull: {
+        mean: [-73.3779606807346,    8.1347192926378,   -0.0859071318267954],
+        sd:   [2.46167202070241,     0.0398861924065703]
+      },
+      hc: {
+        mean: [-199.669282952826,   22.7627207331827,   -0.228581143692389],
+        sd:   [8.36311919198417,    0.0404355183151735]
+      },
+      tcd: {
+        mean: [-11.4734382575368,    1.27358107306175,   0.00975811928717771],
+        sd:   [-0.137234091662908,   0.058239782764265]
+      },
+      ecsf: {
+        mean: [-44.5543682103265,    3.650533392397,    -0.0604400737108953],
+        sd:   [-0.34287991257886,    0.0736569049728816]
+      },
+      atrium: {
+        mean: [16.6003369575988,    -0.747101287972887,  0.0132196766715267],
+        sd:   [2.12569968616966,    -0.0315023655133491]
+      },
+      vermis_h: {
+        mean: [-19.6738459053175,    1.70362413748618,  -0.0160406858650251],
+        sd:   [-0.642983978573238,   0.060046327244326]
+      },
+      vermis_w: {
+        mean: [-10.7794551772162,    0.908493085558297, -0.00576665571345983],
+        sd:   [-0.372909132540246,   0.040820000507973]
+      },
+      vermis_a: {
+        mean: [-170.091016026814,    7.83323147409762,   0.122690731451513],
+        sd:   [-24.262868382227,     1.44062594311489]
+      }
+    };
+
+    function poly(c, ga) { return c[0] + c[1] * ga + (c[2] || 0) * ga * ga; }
+
+    function computeCentileP(key, value, ga) {
+      const n = NORMS[key];
+      if (!n) return null;
+      const mean = poly(n.mean, ga);
+      const sd   = poly(n.sd, ga);
+      if (sd <= 0) return null;
+      return normdist(value, mean, sd) * 100;
+    }
+
+    // ── GA helpers ───────────────────────────────────────────────────
+    function gaFromDates(eddStr, scanStr) {
+      if (!eddStr || !scanStr) return null;
+      const diffDays = (new Date(eddStr) - new Date(scanStr)) / 86400000;
+      const ga = (280 - diffDays) / 7;
+      return ga > 0 ? ga : null;
+    }
+
+    function formatGA(ga) {
+      const weeks = Math.floor(ga);
+      const days  = Math.round((ga - weeks) * 7);
+      return `${weeks} ${days}/7`;
+    }
+
+    // ── DOM refs ─────────────────────────────────────────────────────
+    const eddInput    = document.getElementById('edd');
+    const scanInput   = document.getElementById('scandate');
+    const gaDisplay   = document.getElementById('gaDisplay');
+    const hcInput     = document.getElementById('hc');
+    const ecsfInput   = document.getElementById('ecsf');
+    const outputText  = document.getElementById('outputText');
+    const btnGenerate = document.getElementById('btnGenerate');
+    const btnCopy     = document.getElementById('btnCopy');
+
+    // Field definitions — order determines report row order
+    const FIELDS = [
+      { id: 'bpd_brain', label: 'Brain BPD',               unit: 'mm',  auto: false },
+      { id: 'fod_brain', label: 'Brain FOL',               unit: 'mm',  auto: false },
+      { id: 'bpd_skull', label: 'Skull BPD',               unit: 'mm',  auto: false },
+      { id: 'ofd_skull', label: 'Skull OFD',               unit: 'mm',  auto: false },
+      { id: 'hc',        label: 'Head circumference',      unit: 'mm',  auto: true  },
+      { id: 'tcd',       label: 'TCD',                     unit: 'mm',  auto: false },
+      { id: 'ecsf',      label: 'Extra-cerebral CSF',      unit: 'mm',  auto: true  },
+      { id: 'atrium',    label: 'Atrial diameter',         unit: 'mm',  auto: false },
+      { id: 'vermis_h',  label: 'Vermis height',           unit: 'mm',  auto: false },
+      { id: 'vermis_w',  label: 'Vermis width',            unit: 'mm',  auto: false },
+      { id: 'vermis_a',  label: 'Vermis area',             unit: 'mm²', auto: false },
+    ];
+
+    // ── Live recalculation ───────────────────────────────────────────
+    function recalc() {
+      const ga = gaFromDates(eddInput.value, scanInput.value);
+      gaDisplay.textContent = ga !== null ? formatGA(ga) : '—';
+
+      const bpd_brain = parseFloat(document.getElementById('bpd_brain').value);
+      const bpd_skull = parseFloat(document.getElementById('bpd_skull').value);
+      const ofd_skull = parseFloat(document.getElementById('ofd_skull').value);
+
+      const hcVal   = (!isNaN(bpd_skull) && !isNaN(ofd_skull)) ? 1.62 * (bpd_skull + ofd_skull) : NaN;
+      const ecsfVal = (!isNaN(bpd_skull) && !isNaN(bpd_brain)) ? bpd_skull - bpd_brain : NaN;
+
+      hcInput.value   = isNaN(hcVal)   ? '' : hcVal.toFixed(1);
+      ecsfInput.value = isNaN(ecsfVal) ? '' : ecsfVal.toFixed(1);
+
+      FIELDS.forEach(f => {
+        const el  = document.getElementById(f.id);
+        const cEl = document.getElementById('c_' + f.id);
+        const val = f.id === 'hc'   ? hcVal
+                  : f.id === 'ecsf' ? ecsfVal
+                  : parseFloat(el.value);
+
+        if (isNaN(val) || ga === null) {
+          cEl.textContent = '—';
+          cEl.className = 'meas-centile-cell';
+          return;
+        }
+
+        const p = computeCentileP(f.id, val, ga);
+        if (p === null) { cEl.textContent = '—'; cEl.className = 'meas-centile-cell'; return; }
+
+        cEl.textContent = formatCentile(p);
+        cEl.className = 'meas-centile-cell has-value' + (p < 1 || p > 99 ? ' extreme' : '');
+      });
+    }
+
+    // ── Generate report text ─────────────────────────────────────────
+    function generateReport() {
+      const ga    = gaFromDates(eddInput.value, scanInput.value);
+      const gaStr = ga !== null ? `${formatGA(ga)} weeks` : '? weeks';
+      const hcVal   = parseFloat(hcInput.value);
+      const ecsfVal = parseFloat(ecsfInput.value);
+
+      const COL_LABEL = Math.max(...FIELDS.map(f => f.label.length)) + 1; // +1 for ":"
+      const header = `Fetal Brain Morphometry (${gaStr}, Kyriakopoulou 2017)`;
+      const rule   = '─'.repeat(header.length);
+
+      const rows = FIELDS.map(f => {
+        const el  = document.getElementById(f.id);
+        const cEl = document.getElementById('c_' + f.id);
+        const val = f.id === 'hc'   ? hcVal
+                  : f.id === 'ecsf' ? ecsfVal
+                  : parseFloat(el.value);
+
+        const labelCol = (f.label + ':').padEnd(COL_LABEL);
+        const autoStr  = f.auto ? '  [calculated]' : '';
+
+        if (isNaN(val) || cEl.textContent === '—') {
+          return `${labelCol}  ${'—'.padStart(10)}   —${autoStr}`;
+        }
+
+        const decimals = f.id === 'vermis_a' ? 0 : 1;
+        const valStr   = `${val.toFixed(decimals)} ${f.unit}`;
+        return `${labelCol}  ${valStr.padStart(10)}   ${cEl.textContent}${autoStr}`;
+      });
+
+      outputText.value = [header, rule, ...rows, rule,
+        "Reference: Kyriakopoulou & Vatansever, King's College London, 2016"
+      ].join('\n');
+    }
+
+    // ── Button handlers ──────────────────────────────────────────────
+    btnGenerate.addEventListener('click', generateReport);
+
+    btnCopy.addEventListener('click', () => {
+      if (!outputText.value) return;
+      navigator.clipboard.writeText(outputText.value).then(() => {
+        const orig = btnCopy.textContent;
+        btnCopy.textContent = 'Copied!';
+        setTimeout(() => { btnCopy.textContent = orig; }, 1500);
+      });
+    });
+
+    // ── Wire inputs ──────────────────────────────────────────────────
+    [eddInput, scanInput].forEach(el => el.addEventListener('change', recalc));
+    FIELDS.filter(f => !f.auto).forEach(f =>
+      document.getElementById(f.id).addEventListener('input', recalc)
+    );
+  </script>
+
+</body>
+</html>
