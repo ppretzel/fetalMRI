@@ -18,6 +18,11 @@
         </ul>
       </li>
     </ul>
+    <button class="nav-toggle" aria-label="Toggle menu">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
   </nav>
 
   <main class="viewer-section">
@@ -68,6 +73,16 @@
     Viewer powered by <a href="https://github.com/niivue/niivue" target="_blank" rel="noopener">NiiVue</a>
   </footer>
 
+  <script>
+    (function(){
+      var toggle = document.querySelector('.nav-toggle');
+      var links  = document.querySelector('.nav-links');
+      if (!toggle || !links) return;
+      toggle.addEventListener('click', function() { links.classList.toggle('open'); });
+      links.addEventListener('click', function(e) { if (e.target.closest('a')) this.classList.remove('open'); });
+      document.addEventListener('click', function(e) { if (!e.target.closest('nav')) links.classList.remove('open'); });
+    })();
+  </script>
   <script type="module">
     import { Niivue } from "https://cdn.jsdelivr.net/npm/@niivue/niivue@0.57.0/dist/index.js";
 

@@ -678,10 +678,85 @@ footer a {
   border-color: var(--accent);
 }
 
+/* ── Mobile nav toggle ── */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  margin-left: auto;
+}
+
+.nav-toggle-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  margin: 4px 0;
+  border-radius: 1px;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
 /* ── Responsive ── */
 @media (max-width: 600px) {
+  nav {
+    gap: 0;
+  }
+
+  .nav-toggle {
+    display: flex;
+    flex-direction: column;
+  }
+
   .nav-links {
     display: none;
+    position: absolute;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem 0;
+    z-index: 200;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links li {
+    width: 100%;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 0.7rem 1.5rem;
+  }
+
+  .nav-links .has-dropdown {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .nav-links .has-dropdown > a::after {
+    display: none;
+  }
+
+  .nav-links .dropdown {
+    position: static;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    padding: 0;
+  }
+
+  .nav-links .dropdown li a {
+    padding-left: 2.5rem;
   }
 
   .age-pill {

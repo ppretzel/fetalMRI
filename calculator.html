@@ -18,6 +18,11 @@
         </ul>
       </li>
     </ul>
+    <button class="nav-toggle" aria-label="Toggle menu">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
   </nav>
 
   <main class="calc-section">
@@ -354,6 +359,16 @@
     FIELDS.filter(f => !f.auto).forEach(f =>
       document.getElementById(f.id).addEventListener('input', recalc)
     );
+
+    // Mobile nav toggle
+    (function(){
+      var toggle = document.querySelector('.nav-toggle');
+      var links  = document.querySelector('.nav-links');
+      if (!toggle || !links) return;
+      toggle.addEventListener('click', function() { links.classList.toggle('open'); });
+      links.addEventListener('click', function(e) { if (e.target.closest('a')) this.classList.remove('open'); });
+      document.addEventListener('click', function(e) { if (!e.target.closest('nav')) links.classList.remove('open'); });
+    })();
   </script>
 
 </body>
