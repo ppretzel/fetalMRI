@@ -112,11 +112,19 @@ body {
 
 .sidebar-section ul li a {
   display: block;
-  padding: 0.35rem 0.9rem 0.35rem 2rem;
+  padding: 0.4rem 0.9rem 0.4rem 2rem;
   font-size: 0.82rem;
+  line-height: 1.25;
   color: var(--muted);
   text-decoration: none;
   transition: color 0.15s;
+}
+
+.sidebar-section ul li a .link-sub {
+  display: block;
+  margin-top: 0.1rem;
+  font-size: 0.7rem;
+  line-height: 1.3;
 }
 
 .sidebar-section ul li a:hover {
