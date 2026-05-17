@@ -13,15 +13,17 @@ Static multi-page fetal MRI resource site. No build step, no framework, no backe
 | `Fetal-Brain-Centile-Calculator-Kyriakopoulou-V.xlsm` | Reference only — not used by the web app; source of normative coefficients |
 
 ## Navigation Pattern
-- Sticky dark nav, `--nav-height: 56px`
-- `.has-dropdown` + `.dropdown` for the Calculators submenu
-- Hover works because `.has-dropdown` uses `align-self: stretch; display: flex; align-items: center` — the `<li>` fills the full nav height so there is no gap between the nav item and the dropdown (gap was the bug, this is the fix)
-- `Calculators` parent link is `href="#"` intentionally — more calculators will be added as dropdown subentries later
-- Remove nav items that aren't implemented yet rather than leaving `href="#"` placeholders
+- Fixed slim top header (`.site-header`, `--header-height: 48px`) with brand text "Fetal MRI Resources" on the left; burger toggle (`.sidebar-toggle`) appears in the header on mobile only
+- Fixed left sidebar (`.sidebar`, `--sidebar-width: 240px`) below the header; body has `padding-top: var(--header-height); padding-left: var(--sidebar-width)` so main + footer flow in the remaining area
+- Single continuous sidebar card: `.sidebar-nav` is the one dark surface + rounded-corner container; the `<details class="sidebar-section">` groups inside it stack without their own borders or backgrounds
+- Sections start `open` by default (few subitems for now — revisit if the menu grows). Active subitem gets `class="active"` styled as **text-only** highlight (accent color + bold) — never a full-row background
+- Mobile (`max-width: 600px`): body left-padding drops to 0; sidebar is `transform: translateX(-100%)` and slides in when `.open` is added; backdrop (`.sidebar-backdrop`) captures clicks-outside to close
+- New calculators / atlases are added as additional `<li>` entries inside the relevant `.sidebar-section` `<ul>` on both pages
+- Sections with no real content yet (Resources, Acquisition, Interpretation) are intentionally omitted — only add a section when its first subitem exists
 
 ## CSS System (`css/style.css`)
-- CSS custom properties at `:root`: `--bg`, `--surface`, `--surface2`, `--border`, `--text`, `--muted`, `--accent`, `--accent-glow`, `--accent-dim`, `--nav-height`
-- Component-prefixed classes: `.nav-*`, `.viewer-*`, `.calc-*`, `.age-*`, `.meas-*`
+- CSS custom properties at `:root`: `--bg`, `--surface`, `--surface2`, `--border`, `--text`, `--muted`, `--accent`, `--accent-glow`, `--accent-dim`, `--header-height`, `--sidebar-width`
+- Component-prefixed classes: `.site-*`, `.sidebar-*`, `.viewer-*`, `.calc-*`, `.age-*`, `.meas-*`
 - State modifiers: `.active`, `.switching`, `.unavailable`, `.has-value`, `.extreme`
 - Single `@media (max-width: 600px)` breakpoint
 - Do NOT split into multiple CSS files

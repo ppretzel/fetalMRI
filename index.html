@@ -8,22 +8,31 @@
 </head>
 <body>
 
-  <nav>
-    <a class="nav-brand" href="index.html">Fetal MRI Resources</a>
-    <ul class="nav-links">
-      <li><a href="index.html" class="active">Atlas Viewer</a></li>
-      <li class="has-dropdown"><a href="#">Calculators</a>
-        <ul class="dropdown">
+  <header class="site-header">
+    <button class="sidebar-toggle" aria-label="Toggle navigation" aria-controls="sidebar">
+      <span></span><span></span><span></span>
+    </button>
+    <a class="site-brand" href="index.html">Fetal MRI Resources</a>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <details class="sidebar-section" open>
+        <summary>Calculators</summary>
+        <ul>
           <li><a href="calculator.html">Kyriakopoulou 2017</a></li>
         </ul>
-      </li>
-    </ul>
-    <button class="nav-toggle" aria-label="Toggle menu">
-      <span class="nav-toggle-bar"></span>
-      <span class="nav-toggle-bar"></span>
-      <span class="nav-toggle-bar"></span>
-    </button>
-  </nav>
+      </details>
+      <details class="sidebar-section" open>
+        <summary>Atlases</summary>
+        <ul>
+          <li><a href="index.html" class="active">Gholipour 2017 (GA 21 - 35 weeks)</a></li>
+        </ul>
+      </details>
+    </nav>
+  </aside>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
   <main class="viewer-section">
     <details class="viewer-header-panel">
@@ -75,12 +84,15 @@
 
   <script>
     (function(){
-      var toggle = document.querySelector('.nav-toggle');
-      var links  = document.querySelector('.nav-links');
-      if (!toggle || !links) return;
-      toggle.addEventListener('click', function() { links.classList.toggle('open'); });
-      links.addEventListener('click', function(e) { if (e.target.closest('a')) this.classList.remove('open'); });
-      document.addEventListener('click', function(e) { if (!e.target.closest('nav')) links.classList.remove('open'); });
+      var toggle   = document.querySelector('.sidebar-toggle');
+      var sidebar  = document.getElementById('sidebar');
+      var backdrop = document.getElementById('sidebarBackdrop');
+      if (!toggle || !sidebar || !backdrop) return;
+      function close() { sidebar.classList.remove('open'); backdrop.classList.remove('open'); toggle.classList.remove('open'); }
+      function open()  { sidebar.classList.add('open');    backdrop.classList.add('open');    toggle.classList.add('open');    }
+      toggle.addEventListener('click', function(e){ e.stopPropagation(); sidebar.classList.contains('open') ? close() : open(); });
+      backdrop.addEventListener('click', close);
+      sidebar.addEventListener('click', function(e){ if (e.target.closest('a')) close(); });
     })();
   </script>
   <script type="module">
