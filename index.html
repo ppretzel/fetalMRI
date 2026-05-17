@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fetal MRI Resources</title>
   <link rel="stylesheet" href="css/style.css">
+  <script src="js/nav.js" defer></script>
 </head>
 <body>
 
@@ -49,9 +50,7 @@
     </details>
 
     <div class="age-selector-panel">
-      <div class="age-selector-top">
-        <span class="age-selector-label">Gestational Age</span>
-      </div>
+      <span class="age-selector-label">Gestational Age</span>
       <div class="age-pills" id="agePills"></div>
       <div class="preload-wrap" id="preloadWrap">
         <div class="preload-bar-track">
@@ -82,24 +81,11 @@
     Viewer powered by <a href="https://github.com/niivue/niivue" target="_blank" rel="noopener">NiiVue</a>
   </footer>
 
-  <script>
-    (function(){
-      var toggle   = document.querySelector('.sidebar-toggle');
-      var sidebar  = document.getElementById('sidebar');
-      var backdrop = document.getElementById('sidebarBackdrop');
-      if (!toggle || !sidebar || !backdrop) return;
-      function close() { sidebar.classList.remove('open'); backdrop.classList.remove('open'); toggle.classList.remove('open'); }
-      function open()  { sidebar.classList.add('open');    backdrop.classList.add('open');    toggle.classList.add('open');    }
-      toggle.addEventListener('click', function(e){ e.stopPropagation(); sidebar.classList.contains('open') ? close() : open(); });
-      backdrop.addEventListener('click', close);
-      sidebar.addEventListener('click', function(e){ if (e.target.closest('a')) close(); });
-    })();
-  </script>
   <script type="module">
     import { Niivue } from "https://cdn.jsdelivr.net/npm/@niivue/niivue@0.57.0/dist/index.js";
 
     const WEEKS = Array.from({ length: 15 }, (_, i) => 21 + i);
-    const blobUrls = new Map();   // week -> objectURL (with .nii hint via name param)
+    const blobUrls = new Map();
     let currentWeek = null;
     let switching = false;
     let loadedCount = 0;
@@ -177,38 +163,36 @@
     }
 
     // ── Preload all atlases in parallel ───────────────────────────
-    // Each entry is a Promise that resolves once that week's blob is cached.
-    const fetchDone = new Map(
-      WEEKS.map(w => [w, (async () => {
-        try {
-          const resp = await fetch(`./atlas/STA${w}.nii`);
-          if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-          const blob = await resp.blob();
-          blobUrls.set(w, URL.createObjectURL(blob));
-          getPill(w).disabled = false;
-        } catch (err) {
-          console.warn(`STA${w}.nii: ${err.message}`);
-          const p = getPill(w);
-          if (p) { p.disabled = true; p.classList.add("unavailable"); p.title = "Not available"; }
-        } finally {
-          loadedCount++;
-          preloadBar.style.width = `${Math.round(loadedCount / WEEKS.length * 100)}%`;
-          preloadText.textContent = loadedCount < WEEKS.length
-            ? `Loading atlases… ${loadedCount} / ${WEEKS.length}`
-            : "All atlases ready";
-          if (loadedCount === WEEKS.length) {
-            setTimeout(() => {
-              preloadWrap.classList.add("done");
-              setTimeout(() => preloadWrap.remove(), 650);
-            }, 1200);
-          }
+    async function preload(w) {
+      try {
+        const resp = await fetch(`./atlas/STA${w}.nii`);
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        blobUrls.set(w, URL.createObjectURL(await resp.blob()));
+        getPill(w).disabled = false;
+      } catch (err) {
+        console.warn(`STA${w}.nii: ${err.message}`);
+        const p = getPill(w);
+        if (p) { p.disabled = true; p.classList.add("unavailable"); p.title = "Not available"; }
+      } finally {
+        loadedCount++;
+        preloadBar.style.width = `${Math.round(loadedCount / WEEKS.length * 100)}%`;
+        preloadText.textContent = loadedCount < WEEKS.length
+          ? `Loading atlases… ${loadedCount} / ${WEEKS.length}`
+          : "All atlases ready";
+        if (loadedCount === WEEKS.length) {
+          setTimeout(() => {
+            preloadWrap.classList.add("done");
+            setTimeout(() => preloadWrap.remove(), 650);
+          }, 1200);
         }
-      })()]
-    ));
+      }
+    }
+
+    const preloads = WEEKS.map(preload);
 
     // ── Init: display STA21 as soon as its blob is ready ─────────
     (async () => {
-      await fetchDone.get(21);
+      await preloads[0];
       if (!blobUrls.has(21)) {
         overlay.innerHTML = `<span class="overlay-error">STA21 could not be loaded.</span>`;
         return;

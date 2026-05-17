@@ -9,6 +9,7 @@ Static multi-page fetal MRI resource site. No build step, no framework, no backe
 | `index.html` | Atlas Viewer — interactive multiplanar NIfTI viewer |
 | `calculator.html` | Kyriakopoulou 2017 Centile Calculator |
 | `css/style.css` | Single shared stylesheet for all pages |
+| `js/nav.js` | Shared sidebar toggle (mobile burger → X, backdrop, close-on-link) |
 | `atlas/STA21-35.nii` | Fetal brain NIfTI atlases, 15 gestational ages (21–35 weeks) |
 | `Fetal-Brain-Centile-Calculator-Kyriakopoulou-V.xlsm` | Reference only — not used by the web app; source of normative coefficients |
 

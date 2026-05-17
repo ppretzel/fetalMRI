@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Brain Morphometry Centile Calculator — Fetal MRI Resources</title>
   <link rel="stylesheet" href="css/style.css">
+  <script src="js/nav.js" defer></script>
 </head>
 <body>
 
@@ -43,7 +44,6 @@
       </div>
     </details>
 
-    <!-- Gestational Age -->
     <div class="calc-card">
       <div class="calc-card-title">Gestational Age</div>
       <div class="date-row">
@@ -62,7 +62,6 @@
       </div>
     </div>
 
-    <!-- Measurements -->
     <div class="calc-card">
       <table class="meas-table">
         <thead>
@@ -132,7 +131,6 @@
       </table>
     </div>
 
-    <!-- Report output -->
     <div class="calc-card">
       <div class="calc-card-title">Report Output</div>
       <div class="output-actions">
@@ -369,18 +367,6 @@
       document.getElementById(f.id).addEventListener('input', recalc)
     );
 
-    // Sidebar toggle (mobile)
-    (function(){
-      var toggle   = document.querySelector('.sidebar-toggle');
-      var sidebar  = document.getElementById('sidebar');
-      var backdrop = document.getElementById('sidebarBackdrop');
-      if (!toggle || !sidebar || !backdrop) return;
-      function close() { sidebar.classList.remove('open'); backdrop.classList.remove('open'); toggle.classList.remove('open'); }
-      function open()  { sidebar.classList.add('open');    backdrop.classList.add('open');    toggle.classList.add('open');    }
-      toggle.addEventListener('click', function(e){ e.stopPropagation(); sidebar.classList.contains('open') ? close() : open(); });
-      backdrop.addEventListener('click', close);
-      sidebar.addEventListener('click', function(e){ if (e.target.closest('a')) close(); });
-    })();
   </script>
 
 </body>
