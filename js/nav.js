@@ -13,4 +13,18 @@
   toggle.addEventListener('click', () => setOpen(!sidebar.classList.contains('open')));
   backdrop.addEventListener('click', () => setOpen(false));
   sidebar.addEventListener('click', (e) => { if (e.target.closest('a')) setOpen(false); });
+
+  const mobile = window.matchMedia('(max-width: 600px)');
+  document.querySelectorAll('[data-action="open-sidebar"]').forEach(el =>
+    el.addEventListener('click', () => {
+      sidebar.querySelectorAll('details.sidebar-section').forEach(d => d.open = true);
+      if (mobile.matches) {
+        sidebar.classList.add('open');
+        toggle.classList.add('open');
+      } else {
+        el.classList.add('is-arrow');
+        el.textContent = '←';
+      }
+    })
+  );
 })();

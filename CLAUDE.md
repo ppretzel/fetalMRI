@@ -6,8 +6,9 @@ Static multi-page fetal MRI resource site. No build step, no framework, no backe
 ## File Map
 | File | Purpose |
 |------|---------|
-| `index.html` | Atlas Viewer — interactive multiplanar NIfTI viewer |
-| `calculator.html` | Kyriakopoulou 2017 Centile Calculator |
+| `index.html` | Landing page — slim overview, site entry point |
+| `gholipour-2017.html` | Atlas Viewer — interactive multiplanar NIfTI viewer (Gholipour 2017) |
+| `kyriakopoulou-2017.html` | Kyriakopoulou 2017 Centile Calculator |
 | `css/style.css` | Single shared stylesheet for all pages |
 | `js/nav.js` | Shared sidebar toggle (mobile burger → X, backdrop, close-on-link) |
 | `atlas/STA21-35.nii` | Fetal brain NIfTI atlases, 15 gestational ages (21–35 weeks) |
@@ -29,14 +30,14 @@ Static multi-page fetal MRI resource site. No build step, no framework, no backe
 - Single `@media (max-width: 600px)` breakpoint
 - Do NOT split into multiple CSS files
 
-## Atlas Viewer (`index.html`)
+## Atlas Viewer (`gholipour-2017.html`)
 - NiiVue v0.57.0 from CDN (`jsdelivr`)
 - All 15 atlases fetched in parallel as blobs on page load; STA21 rendered immediately when ready
 - Blob URLs cached in a `Map`; pill buttons enabled as their atlas loads
 - Ctrl/Cmd+Scroll zooms (range 0.5–8×); double-click resets zoom
 - Pill states: `.active` (current), `.switching` (loading pulse), `.unavailable` (fetch failed)
 
-## Centile Calculator (`calculator.html`)
+## Centile Calculator (`kyriakopoulou-2017.html`)
 - Normative data: Kyriakopoulou & Vatansever, King's College London, 2016
 - Coefficients hard-coded in `NORMS` object — quadratic mean polynomial + linear SD polynomial per measurement
 - Centile math: `NORMDIST(value, mean, SD)` via erf approximation; clamped to "<1st percentile" / ">99th percentile"
@@ -51,7 +52,7 @@ Static multi-page fetal MRI resource site. No build step, no framework, no backe
 - Minimal whitespace: prefer merging labels into table `<th>` rather than separate heading elements
 - No comments in code unless the WHY is non-obvious
 - Ordinal suffixes: 1st, 2nd, 3rd, 4th … 11th, 12th, 13th (correct handling of teens)
-- IDs: `snake_case`; CSS classes: `kebab-case`
+- IDs: `snake_case`; CSS classes: `kebab-case`; per-resource HTML filenames: `firstauthor-year.html` (e.g. `gholipour-2017.html`) so additions don't collide with existing ones
 
 ## Do Not
 - Add a build step or bundler
