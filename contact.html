@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Fetal MRI Resources</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/nav.js" defer></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <button class="sidebar-toggle" aria-label="Toggle navigation" aria-controls="sidebar">
+      <span></span><span></span><span></span>
+    </button>
+    <a class="site-brand" href="index.html">Fetal MRI Resources</a>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <details class="sidebar-section" open>
+        <summary>Calculators</summary>
+        <ul>
+          <li><a href="kyriakopoulou-2017.html">
+            Kyriakopoulou 2017
+            <span class="link-sub">Brain morphometry percentiles</span>
+          </a></li>
+        </ul>
+      </details>
+      <details class="sidebar-section" open>
+        <summary>Atlases</summary>
+        <ul>
+          <li><a href="gholipour-2017.html">
+            Gholipour 2017
+            <span class="link-sub">GA 21–35 weeks</span>
+          </a></li>
+        </ul>
+      </details>
+    </nav>
+    <nav class="sidebar-nav sidebar-footer-nav">
+      <ul>
+        <li><a href="contact.html" class="active">Contact</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <main class="contact-section">
+    <div class="contact-card">
+      <p class="contact-card-title">Suggest content</p>
+      <div data-fs-success class="contact-success">Thanks — we'll take a look.</div>
+      <form id="contact-form">
+        <div data-fs-error class="contact-error"></div>
+        <div class="contact-field">
+          <label for="contact_email">Email <span class="contact-optional">(optional — for a reply)</span></label>
+          <input type="email" id="contact_email" name="email" data-fs-field placeholder="your@email.com">
+          <span data-fs-error="email" class="contact-field-error"></span>
+        </div>
+        <div class="contact-field">
+          <label for="contact_message">Suggestion</label>
+          <textarea id="contact_message" name="message" data-fs-field required rows="5" placeholder="Suggest a calculator, atlas, or resource…"></textarea>
+          <span data-fs-error="message" class="contact-field-error"></span>
+        </div>
+        <div class="contact-actions">
+          <button type="submit" data-fs-submit-btn class="btn-generate">Send</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+    formspree('initForm', { formElement: '#contact-form', formId: 'maqkqgyj' });
+  </script>
+  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+
+</body>
+</html>

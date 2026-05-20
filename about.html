@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fetal MRI Resources</title>
+  <title>About — Fetal MRI Resources</title>
   <link rel="stylesheet" href="css/style.css">
   <script src="js/nav.js" defer></script>
 </head>
@@ -18,7 +18,7 @@
 
   <aside class="sidebar" id="sidebar">
     <nav class="sidebar-nav">
-      <details class="sidebar-section">
+      <details class="sidebar-section" open>
         <summary>Calculators</summary>
         <ul>
           <li><a href="kyriakopoulou-2017.html">
@@ -27,7 +27,7 @@
           </a></li>
         </ul>
       </details>
-      <details class="sidebar-section">
+      <details class="sidebar-section" open>
         <summary>Atlases</summary>
         <ul>
           <li><a href="gholipour-2017.html">
@@ -40,18 +40,24 @@
     <nav class="sidebar-nav sidebar-footer-nav">
       <ul>
         <li><a href="contact.html">Contact</a></li>
-        <li><a href="about.html">About</a></li>
+        <li><a href="about.html" class="active">About</a></li>
       </ul>
     </nav>
   </aside>
 
   <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
-  <main class="landing-section">
-    <div class="landing-content">
-      <p class="landing-tagline">Tools and Resources for Fetal MRI</p>
-      <button class="landing-cta" data-action="open-sidebar">Browse resources</button>
-      <a class="landing-suggest" href="contact.html">Resource missing? Suggest it!</a>
+  <main class="contact-section">
+    <div class="contact-card">
+      <p class="contact-card-title">About</p>
+      <p>A collection of tools and reference data for fetal MRI — calculators, normative atlases, and resources for clinical and research use.</p>
+    </div>
+    <div class="contact-card">
+      <p class="contact-card-title">Impressum</p>
+      <p>Pablo Pretzel</p>
+      <p style="margin-top:0.75rem;font-size:0.82rem;color:var(--muted);">
+        Contact: <a href="contact.html">contact form</a>
+      </p>
     </div>
   </main>
 

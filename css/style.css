@@ -68,6 +68,9 @@ body {
   padding: 0.75rem;
   overflow-y: auto;
   z-index: 90;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .sidebar-nav {
@@ -478,6 +481,34 @@ body {
   background: var(--surface);
 }
 
+/* ── Sidebar footer nav (pinned bottom) ── */
+.sidebar-footer-nav {
+  margin-top: auto;
+}
+
+.sidebar-footer-nav ul {
+  list-style: none;
+  padding: 0.2rem 0;
+}
+
+.sidebar-footer-nav ul li a {
+  display: block;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.sidebar-footer-nav ul li a:hover {
+  color: var(--text);
+}
+
+.sidebar-footer-nav ul li a.active {
+  color: var(--accent);
+  font-weight: 600;
+}
+
 /* ── Footer ── */
 footer {
   margin-top: 3rem;
@@ -780,6 +811,98 @@ footer a {
 
 .output-textarea:focus {
   border-color: var(--accent);
+}
+
+/* ── Landing suggest link ── */
+.landing-suggest {
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.landing-suggest:hover {
+  color: var(--text);
+}
+
+/* ── Contact form page ── */
+.contact-section {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.contact-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.1rem 1.4rem;
+}
+
+.contact-card-title {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.contact-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.9rem;
+}
+
+.contact-field label {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.contact-optional {
+  opacity: 0.65;
+}
+
+.contact-field input,
+.contact-field textarea {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 0.88rem;
+  padding: 0.42rem 0.65rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+  resize: vertical;
+}
+
+.contact-field input:focus,
+.contact-field textarea:focus {
+  border-color: var(--accent);
+}
+
+.contact-field-error,
+.contact-error {
+  font-size: 0.75rem;
+  color: #ff6b6b;
+  min-height: 1rem;
+}
+
+.contact-success {
+  color: var(--text);
+  font-size: 0.9rem;
+  padding: 0.5rem 0 0.25rem;
+}
+
+.contact-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.25rem;
 }
 
 /* ── Responsive ── */
