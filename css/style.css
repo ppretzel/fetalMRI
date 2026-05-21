@@ -17,8 +17,11 @@
   --sidebar-width: 240px;
 }
 
-html, body {
+html {
   min-height: 100%;
+}
+
+html, body {
   background:
     radial-gradient(ellipse at 70% 0%, rgba(74, 120, 255, 0.08) 0%, transparent 55%),
     radial-gradient(ellipse at 10% 80%, rgba(120, 80, 255, 0.05) 0%, transparent 50%),
@@ -32,6 +35,9 @@ html, body {
 body {
   padding-top: var(--header-height);
   padding-left: var(--sidebar-width);
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
 }
 
 /* ── Top header ── */
@@ -529,8 +535,7 @@ footer a {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - var(--header-height));
-  min-height: calc(100dvh - var(--header-height));
+  flex: 1;
   padding: 2rem 1rem;
 }
 
@@ -835,6 +840,10 @@ footer a {
   gap: 0.75rem;
 }
 
+.contact-section--wide {
+  max-width: 1000px;
+}
+
 .contact-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -869,6 +878,7 @@ footer a {
 
 .contact-field input,
 .contact-field textarea {
+  width: 100%;
   background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: 6px;
