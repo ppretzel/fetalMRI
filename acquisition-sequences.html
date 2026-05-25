@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sequences — Fetal MRI Resources</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/nav.js" defer></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <button class="sidebar-toggle" aria-label="Toggle navigation" aria-controls="sidebar">
+      <span></span><span></span><span></span>
+    </button>
+    <a class="site-brand" href="index.html">Fetal MRI Resources</a>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <details class="sidebar-section" open>
+        <summary>Calculators</summary>
+        <ul>
+          <li><a href="kyriakopoulou-2017.html">
+            Kyriakopoulou 2017
+            <span class="link-sub">Brain morphometry percentiles</span>
+          </a></li>
+        </ul>
+      </details>
+      <details class="sidebar-section" open>
+        <summary>Atlases</summary>
+        <ul>
+          <li><a href="gholipour-2017.html">
+            Gholipour 2017
+            <span class="link-sub">GA 21–35 weeks</span>
+          </a></li>
+        </ul>
+      </details>
+      <details class="sidebar-section" open>
+        <summary>Acquisition</summary>
+        <ul>
+          <li><a href="acquisition-positioning.html">Patient Positioning
+            <span class="link-sub">Setup and coil placement</span>
+          </a></li>
+          <li><a href="acquisition-sequences.html" class="active">Sequences
+            <span class="link-sub">bSSFP, HASTE, GRE, DWI</span>
+          </a></li>
+          <li><a href="acquisition-safety.html">Safety
+            <span class="link-sub">SAR, first trimester, contrast</span>
+          </a></li>
+        </ul>
+      </details>
+    </nav>
+    <nav class="sidebar-nav sidebar-footer-nav">
+      <ul>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <main class="ref-section">
+
+    <details class="viewer-header-panel" open>
+      <summary>Sequences</summary>
+      <div class="viewer-header-body">
+        <p class="subtitle">Sequence types, protocols, and workflow notes</p>
+      </div>
+    </details>
+
+    <div class="calc-card">
+      <div class="calc-card-title">Sequence Types</div>
+      <ul class="ref-list">
+        <li><span class="ref-seq-name">bFFE / TrueFISP / FIESTA</span> <span class="ref-muted">(balanced SSFP)</span> — primary workhorse; high SNR, good soft-tissue contrast; sFFP variants tend to elicit less fetal movement than other sequence types</li>
+        <li><span class="ref-seq-name">HASTE / SSFSE</span> <span class="ref-muted">(half-Fourier single-shot TSE)</span> — robust T2 weighting, highly resistant to motion</li>
+        <li><span class="ref-seq-name">GRE T1</span> <span class="ref-muted">(gradient-echo)</span> — T1 contrast; myelination assessment, haemorrhage, liver signal, meconium</li>
+        <li><span class="ref-seq-name">EPI DWI</span> <span class="ref-muted">(echo-planar diffusion-weighted)</span> — abdominal organ characterisation; normal kidneys appear diffusion-restricted</li>
+      </ul>
+    </div>
+
+    <div class="calc-card">
+      <div class="calc-card-title">Workflow</div>
+      <ul class="ref-list">
+        <li>Frequent replanning between acquisitions is intrinsic to the workflow — effective scan time is shorter than total exam duration</li>
+        <li>Even in motion-degraded sequences, review all available data: pathology visible in a blurred series may be absent from the cleaner ones</li>
+      </ul>
+    </div>
+
+    <div class="calc-card">
+      <div class="calc-card-title">References</div>
+      <div class="ref-links">
+        <a href="https://www.mriclinicalcasemap.philips.com/global/map/872.010841223003;2331.795491862382;7.851649104713121/23;0;0" target="_blank" rel="noopener">
+          Philips Clinical Body Map — Fetal MRI Exam Cards
+          <span class="ref-link-label">Suggested protocol parameters for Philips platforms</span>
+        </a>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/26225129/" target="_blank" rel="noopener">
+          Fetal MRI: A Technical Update with Educational Aspirations (2015)
+          <span class="ref-link-label">Sequence rationale and protocol overview</span>
+        </a>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/15316689/" target="_blank" rel="noopener">
+          Fetal MRI: Techniques and Protocols (2004)
+          <span class="ref-link-label">Foundational technical review</span>
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    For use by licensed healthcare professionals only.
+    Educational and research reference only. Not a substitute for clinical judgment; verify all information independently.
+    &middot; <a href="about.html#impressum">Impressum</a>
+  </footer>
+
+</body>
+</html>

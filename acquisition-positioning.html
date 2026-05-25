@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fetal MRI Resources</title>
+  <title>Patient Positioning — Fetal MRI Resources</title>
   <link rel="stylesheet" href="css/style.css">
   <script src="js/nav.js" defer></script>
 </head>
@@ -18,7 +18,7 @@
 
   <aside class="sidebar" id="sidebar">
     <nav class="sidebar-nav">
-      <details class="sidebar-section">
+      <details class="sidebar-section" open>
         <summary>Calculators</summary>
         <ul>
           <li><a href="kyriakopoulou-2017.html">
@@ -27,7 +27,7 @@
           </a></li>
         </ul>
       </details>
-      <details class="sidebar-section">
+      <details class="sidebar-section" open>
         <summary>Atlases</summary>
         <ul>
           <li><a href="gholipour-2017.html">
@@ -36,10 +36,10 @@
           </a></li>
         </ul>
       </details>
-      <details class="sidebar-section">
+      <details class="sidebar-section" open>
         <summary>Acquisition</summary>
         <ul>
-          <li><a href="acquisition-positioning.html">Patient Positioning
+          <li><a href="acquisition-positioning.html" class="active">Patient Positioning
             <span class="link-sub">Setup and coil placement</span>
           </a></li>
           <li><a href="acquisition-sequences.html">Sequences
@@ -61,20 +61,38 @@
 
   <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
-  <main class="landing-section">
-    <div class="landing-content">
-      <p class="landing-tagline">Tools and Resources for Fetal MRI</p>
-      <button class="landing-cta" data-action="open-sidebar">Browse resources</button>
-      <a class="landing-suggest" href="contact.html">Resource missing? Suggest it!</a>
+  <main class="ref-section">
+
+    <details class="viewer-header-panel" open>
+      <summary>Patient Positioning</summary>
+      <div class="viewer-header-body">
+        <p class="subtitle">Setup and coil placement for fetal MRI</p>
+      </div>
+    </details>
+
+    <div class="calc-card">
+      <div class="calc-card-title">Position</div>
+      <ul class="ref-list">
+        <li>Supine position preferred throughout pregnancy — start supine even in the third trimester; switch to lateral decubitus only when supine becomes untenable</li>
+        <li>Lateral decubitus is suboptimal: the fetus is farther from the coil and has more space to move; if unavoidable, position the coil laterally rather than anteriorly</li>
+      </ul>
     </div>
+
+    <div class="calc-card">
+      <div class="calc-card-title">Coil &amp; Patient Setup</div>
+      <ul class="ref-list">
+        <li>Legs slightly flexed over a foam wedge</li>
+        <li>Arms resting on the chest with a small pad underneath</li>
+        <li>Coil placed directly on the abdomen — no plexiglass plate between patient and coil</li>
+      </ul>
+    </div>
+
   </main>
 
   <footer>
-    For use by licensed healthcare professionals only — if you are not a healthcare professional, do not use this site for clinical purposes.
-    Educational and research reference only. Not a substitute for clinical judgment; verify all results independently.
-    Not a medical device; not CE-marked under EU MDR 2017/745; not FDA-cleared.
-    No warranty as to accuracy or fitness for purpose; normative data reflects published literature and may not apply to all populations.
-    Not affiliated with or endorsed by the original authors. &middot; <a href="about.html#impressum">Impressum</a>
+    For use by licensed healthcare professionals only.
+    Educational and research reference only. Not a substitute for clinical judgment; verify all information independently.
+    &middot; <a href="about.html#impressum">Impressum</a>
   </footer>
 
 </body>
